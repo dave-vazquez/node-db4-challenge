@@ -38,4 +38,23 @@ router.get('/:id/shoppingList', async (req, res) => {
   }
 });
 
+router.get('/:id/instructions', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const steps = await Recipes.getInstructions(id);
+    res.status(200).json({
+      success: true,
+      steps
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal Server Error: Could not get steps.',
+      error
+    });
+  }
+});
+
 module.exports = router;
